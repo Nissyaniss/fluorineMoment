@@ -2,11 +2,20 @@
 
 use dioxus::prelude::*;
 use dioxus_logger::tracing::{info, Level};
+use manganis::mg;
+
+mod pages;
+
+use pages::cookies::Cookies;
+
+const _TAILWIND_URL: &str = manganis::mg!(file("public/tailwind.css"));
 
 #[derive(Clone, Routable, Debug, PartialEq)]
 enum Route {
     #[route("/")]
     Home {},
+    #[route("/edit_cookie_preferences")]
+    Cookies {},
     #[route("/blog/:id")]
     Blog { id: i32 },
 }
@@ -20,6 +29,16 @@ fn main() {
 
 fn App() -> Element {
     rsx! {
+        // Link {
+        //     rel: "stylesheet",
+        //     href: mg!(file!("/public/tailwind.css"))
+        // }
+        //
+        link {
+            rel: "stylesheet",
+            href: "https://fonts.googleapis.com/css?family=Press Start 2P"
+        }
+
         Router::<Route> {}
     }
 }

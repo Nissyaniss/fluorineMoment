@@ -12,3 +12,6 @@ dioxus = { version = "0.5", features = ["web", "router"] }
 
 # Debug
 dioxus-logger = "0.5.1"
+getrandom = { version = "0.2.15", features = ["js"] }
+manganis = "0.2.2"
+web-sys = "0.3.74"

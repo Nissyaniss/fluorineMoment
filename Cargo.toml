@@ -1,32 +1,18 @@
 [package]
 name = "fluorine-moment"
 version = "0.1.0"
-edition = "2021"
-authors = ["Zacharie Dubrulle <dubrullezacharie@gmail.com>"]
+description = "Counter demo using dominator"
+authors = []
+categories = ["wasm"]
+readme = "README.md"
+license = "MIT"
+edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[workspace]
 
 [dependencies]
-leptos = { version = "0.6", features = ["csr", "nightly"] }
-leptos_meta = { version = "0.6", features = ["csr", "nightly"] }
-leptos_router = { version = "0.6", features = ["csr", "nightly"] }
-console_log = "1"
-log = "0.4"
-console_error_panic_hook = "0.1"
-
-# utils
-# strum = { version = "0.25", features = ["derive", "strum_macros"] }
-# strum_macros = "0.25"
-
-
-[dev-dependencies]
-wasm-bindgen = "0.2"
-wasm-bindgen-test = "0.3"
-web-sys = { version = "0.3", features = ["Document", "Window"] }
-
-
-[profile.release]
-opt-level = 'z'
-lto = true
-codegen-units = 1
-panic = "abort"
+console_error_panic_hook = "0.1.6"
+dominator = "0.5.18"
+wasm-bindgen = "0.2.74"
+futures-signals = "0.3.20"
+once_cell = "1.7.2"

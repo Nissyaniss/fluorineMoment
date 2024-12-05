@@ -1,2 +1,5 @@
+node_modules
+/dist/js
 /target
-/dist
+/wasm-pack.log
+/yarn-error.log

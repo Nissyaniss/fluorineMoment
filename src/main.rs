@@ -1,24 +1,14 @@
-use leptos::prelude::*;
-
-#[component]
-fn App() -> impl IntoView {
-    let (count, set_count) = signal(0);
-
-    view! {
-        <button
-            on:click=move |_| {
-                *set_count.write() += 1;
-            }
-        >
-            {move || if count.get() == 0 {
-                "Click me".to_string()
-            } else {
-                count.get().to_string()
-            }}
-        </button>
-    }
-}
+use leptos::*;
+use fluorine_moment::App;
 
 fn main() {
-    leptos::mount::mount_to_body(App)
+    // set up logging
+    _ = console_log::init_with_level(log::Level::Debug);
+    console_error_panic_hook::set_once();
+
+    mount_to_body(|| {
+        view! {
+            <App />
+        }
+    })
 }

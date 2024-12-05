@@ -96,10 +96,10 @@ fn Home() -> Element {
         }
 
         div {
-          class: "flex flex-col items-center justify-center absolute bottom-0 inset-x-0 opacity-50",
+          class: "flex flex-col items-center justify-center absolute bottom-0 inset-x-0",
 
           p {
-            class: "text-center w-full mb-6",
+            class: "text-center w-full mb-6 opacity-50",
             "voir pourquoi"
           }
 
@@ -109,6 +109,7 @@ fn Home() -> Element {
             view_box: "0 0 26 15",
             fill: "none",
             xmlns: "http://www.w3.org/2000/svg",
+            class: "opacity-50",
 
             path {
               d: "M26 0L22.2857 -1.62358e-07L22.2857 3.71431L26 3.71431L26 0ZM18.5714 7.42862L22.2857 7.42862L22.2857 3.71431L18.5714 3.71431L18.5714 7.42862ZM14.8571 11.1429L18.5714 11.1429L18.5714 7.42862L14.8571 7.42862L14.8571 11.1429ZM11.1428 11.1429L11.1428 14.8572L14.8571 14.8572L14.8571 11.1429L11.1428 11.1429ZM7.42845 7.42862L11.1428 7.42862L11.1428 11.1429L7.42845 11.1429L7.42845 7.42862ZM7.42845 7.42862L7.42845 3.71431L3.71414 3.71431L3.71414 7.42862L7.42845 7.42862ZM-0.000165939 -1.1365e-06L3.71414 -9.74146e-07L3.71414 3.71431L-0.000166102 3.71431L-0.000165939 -1.1365e-06Z",
@@ -132,7 +133,29 @@ fn Home() -> Element {
               fill: "#37A5FF"
             }
           }
+        }
 
+        section {
+          class: "bg-[#70BFFF] py-16 px-6",
+
+          div {
+            class: "flex flex-col md:flex-row gap-8 px-6 container mx-auto",
+
+            div {
+              class: "shrink-0 w-[400px] h-[300px] bg-white"
+            }
+
+            div {
+              h2 {
+                class: "text-xl font-[Arial] font-bold text-[#003866]",
+                "Et si l'océan était un corps humain ?"
+              }
+              p {
+                class: "font-[Arial] text-[#002D52] pt-4",
+                "C'est la question que nous nous sommes posés et qu'on va vous poser aujourd'hui, en vous invitant a participer à ce jeu interactif qui va vous permettre de découvrir les différentes ressemblances que peuvent avoir le corps humain et l'océan."
+              }
+            }
+          }
         }
     }
 }

@@ -1,7 +1,7 @@
 { pkgs ? import <nixos> { } }:
 pkgs.mkShell {
   nativeBuildInputs = with pkgs.buildPackages; [
-    yarn
+    dioxus-cli
   ];
   shellHook = ''
   '';

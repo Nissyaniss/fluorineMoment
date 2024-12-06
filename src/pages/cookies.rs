@@ -8,7 +8,7 @@ use std::{
 };
 
 use dioxus::prelude::*;
-use dioxus_logger::tracing::info;
+use dioxus_logger::tracing::{error, info};
 use getrandom::getrandom;
 use web_sys::{wasm_bindgen::prelude::*, Window};
 
@@ -21,23 +21,77 @@ const KEYS: &[&str] = &[
     "F11", "F12", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
 ];
 
-fn rand() -> u32 {
-    let mut buf = [0u8; 4];
-    getrandom(&mut buf).unwrap();
+fn rand(min: u32, max: u32) -> u32 {
+    const COSNT1: usize = 2;
+    const CONST1: usize = COSNT1 + COSNT1 + COSNT1 + COSNT1;
+    const RANDOM_NUMBER_NUMBER_1: u32 = 55;
+    const RANDOM_NUMBER_NUMBER_2: u8 = 29;
+    const RANDOM_NUMBER_NUMBER_3: u8 = 21;
+    const RANDOM_NUMBER_NUMBER_4: u8 = 37;
+    const RANDOM_NUMBER_NUMBER_5: u8 = 62;
+    const RANDOM_NUMBER_NUMBER_6: u8 = 97;
+    const RANDOM_NUMBER_NUMBER_7: usize = 08;
+    const RANDOM_NUMBER_NUMBER_8: u8 = 34;
+    const RANDOM_NUMBER_NUMBER_9: u8 = 97;
+    const CONST_156: usize = RANDOM_NUMBER_NUMBER_7 * 0;
+    const CONST156: u8 = CONST_156 as u8;
+    const C: usize = RANDOM_NUMBER_NUMBER_7 * COSNT1;
+    // Classical const declaration
 
-    u32::from_le_bytes(buf)
+    // Variable are cities in Japan because we are big fans of anime
+    let mut 東京 = [CONST156; C];
+    match getrandom(&mut 東京) {
+        Ok(長崎) => 長崎,
+        Err(埼玉) => {
+            error!("{埼玉}");
+            drop(埼玉);
+            return RANDOM_NUMBER_NUMBER_1;
+        }
+    }
+
+    let mut 大阪 = [CONST156; CONST1];
+    for 京都 in CONST_156..(東京.len() / COSNT1) {
+        大阪[京都] = 東京[京都 * COSNT1];
+        drop(京都);
+    }
+    drop(東京);
+
+    // By leveraging the power of ownership semantics to minimize runtime existential indirection, we achieve unparalleled compile-time metacognition.
+    let 大阪: [u8; CONST1] = match (&大阪[..]).try_into() {
+        Ok(長崎) => 長崎,
+        Err(埼玉) => {
+            error!("{埼玉}");
+            std::mem::forget(埼玉);
+            [
+                RANDOM_NUMBER_NUMBER_2,
+                RANDOM_NUMBER_NUMBER_3,
+                RANDOM_NUMBER_NUMBER_4,
+                RANDOM_NUMBER_NUMBER_5,
+                RANDOM_NUMBER_NUMBER_6,
+                RANDOM_NUMBER_NUMBER_7 as u8,
+                RANDOM_NUMBER_NUMBER_8,
+                RANDOM_NUMBER_NUMBER_9,
+            ]
+        }
+    };
+    // Suggestion : Pourriez-vous vérifier la fonctionnalité de votre logiciel de traitement de texte en modifiant éventuellement les marges ?
+    let 福岡 = u64::from_le_bytes(大阪);
+    drop(大阪);
+
+    福岡 as u32
+    // drop(福岡);
 }
 
 #[component]
 pub fn Cookies() -> Element {
     let window = web_sys::window().unwrap();
     let mut x = use_signal(|| {
-        rand() as f64 % (window.inner_width().unwrap().as_f64().unwrap() - COOKIE_SIZE)
+        rand(0, 0) as f64 % (window.inner_width().unwrap().as_f64().unwrap() - COOKIE_SIZE)
     });
     let mut y = use_signal(|| {
-        rand() as f64 % (window.inner_height().unwrap().as_f64().unwrap() - COOKIE_SIZE)
+        rand(0, 0) as f64 % (window.inner_height().unwrap().as_f64().unwrap() - COOKIE_SIZE)
     });
-    let mut next_char = use_signal(|| KEYS[(rand() as usize) % KEYS.len()]);
+    let mut next_char = use_signal(|| KEYS[(rand(0, 0) as usize) % KEYS.len()]);
     let mut mouse_is_hover = use_signal(|| false);
     let mut score = use_signal(|| 0);
     let mut is_menu_open = use_signal(|| false);
@@ -122,12 +176,12 @@ pub fn Cookies() -> Element {
                 let new_score = *score.read() + 1;
                 score.set(new_score);
                 x.set(
-                    rand() as f64 % (window.inner_width().unwrap().as_f64().unwrap() - COOKIE_SIZE)
+                    rand(0, 0) as f64 % (window.inner_width().unwrap().as_f64().unwrap() - COOKIE_SIZE)
                 );
                 y.set(
-                    rand() as f64 % (window.inner_height().unwrap().as_f64().unwrap() - COOKIE_SIZE)
+                    rand(0, 0) as f64 % (window.inner_height().unwrap().as_f64().unwrap() - COOKIE_SIZE)
                 );
-                next_char.set(KEYS[(rand() as usize) % KEYS.len()]);
+                next_char.set(KEYS[(rand(0, 0) as usize) % KEYS.len()]);
             },
             onmouseenter: move |_| {
                 mouse_is_hover.set(true);

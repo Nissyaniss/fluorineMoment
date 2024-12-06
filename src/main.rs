@@ -9,10 +9,10 @@ mod pages;
 use pages::cookies::Cookies;
 use pages::qcm::Qcm;
 
-const _TAILWIND_URL: &str = manganis::mg!(file("public/tailwind.css"));
+// const _TAILWIND_URL: &str = manganis::mg!(file("public/tailwind.css"));
 
 #[derive(Clone, Routable, Debug, PartialEq)]
-enum Route {
+pub enum Route {
     #[route("/")]
     Home {},
     #[route("/edit_cookie_preferences")]
@@ -92,11 +92,6 @@ fn Home() -> Element {
           nav {
             class: "flex items-center gap-6",
 
-            Link {
-              class: "opacity-60 hover:opacity-100",
-              to: Route::Home {},
-              "Indexation"
-            }
             Link {
               class: "px-4 py-2 border-2 border-[#70BFFF] text-[#70BFFF] hover:bg-[#70BFFF] hover:text-white",
               to: Route::Qcm {},

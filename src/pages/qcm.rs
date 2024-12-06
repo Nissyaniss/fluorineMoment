@@ -6,6 +6,7 @@ struct Question {
   question: String,
   answers: Vec<String>,
   correct_answer: usize,
+  correct_details: String
 }
 
 #[component]
@@ -21,6 +22,7 @@ pub fn Qcm() -> Element {
         "Cerveau".to_string(),
       ],
       correct_answer: 1,
+      correct_details: "La peau agit comme un régulateur de température pour le corps humain, tout comme l'océan agit comme une mémoire du climat en captant la chaleur.".to_string(),
     },
     Question {
       context: "Les courants océaniques, comme le Gulf Stream, transportent de la chaleur et des nutriments à travers la planète.".to_string(),
@@ -32,6 +34,7 @@ pub fn Qcm() -> Element {
         "Coeur".to_string(),
       ],
       correct_answer: 1,
+      correct_details: "Le système circulatoire transporte le sang, les nutriments et l'oxygène à travers le corps, tout comme les courants océaniques transportent de la chaleur et des nutriments à travers la planète.".to_string(),
     },
     Question {
       context: "Lorsque la surface de l’océan se réchauffe, les échanges de gaz (comme l’oxygène) entre les profondeurs et la surface diminuent, affectant la faune marine.".to_string(),
@@ -43,6 +46,7 @@ pub fn Qcm() -> Element {
         "Cerveau".to_string(),
       ],
       correct_answer: 2,
+      correct_details: "Les poumons sont responsables des échanges gazeux dans le corps humain, tout comme les échanges de gaz entre les profondeurs et la surface de l'océan.".to_string(),
     },
     Question {
       context: "Le phytoplancton est la base de la chaîne alimentaire marine, produisant l'énergie pour d'autres organismes.".to_string(),
@@ -54,6 +58,7 @@ pub fn Qcm() -> Element {
         "Cerveau".to_string(),
       ],
       correct_answer: 2,
+      correct_details: "Les cellules sont la base de la vie et produisent de l'énergie pour le corps humain, tout comme le phytoplancton est la base de la chaîne alimentaire marine.".to_string(),
     },
     Question {
       context: "Une partie du phytoplancton en décomposition est emprisonnée au fond de l’océan, stockant du CO₂ pendant des milliers d’années.".to_string(),
@@ -65,6 +70,7 @@ pub fn Qcm() -> Element {
         "Cerveau".to_string(),
       ],
       correct_answer: 2,
+      correct_details: "Les graisses (tissu adipeux) stockent des déchets et des substances dans le corps humain, tout comme une partie du phytoplancton en décomposition est emprisonnée au fond de l'océan.".to_string(),
     },
     Question {
       context: "L'acidification des océans modifie leur équilibre chimique et affecte les écosystèmes marins.".to_string(),
@@ -76,6 +82,7 @@ pub fn Qcm() -> Element {
         "Cerveau".to_string(),
       ],
       correct_answer: 2,
+      correct_details: "Le sang est un équilibre chimique délicat dans le corps humain, tout comme l'acidification des océans modifie leur équilibre chimique et affecte les écosystèmes marins.".to_string(),
     },
   ]);
 
@@ -85,23 +92,44 @@ pub fn Qcm() -> Element {
 
   let mut is_current_answer_correct = use_signal(|| false);
   let mut show_modal = use_signal(|| false);
+  let mut last_explanation = use_signal(|| "".to_string());
 
   rsx! {
     if *show_modal.read() {
       div {
-        class: "fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center",
+        class: "z-50 fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center",
         div {
-          class: "bg-white p-6",
+          class: "bg-white max-w-[400px]",
 
-          p {
+          div {
+            class: "h-[250px] w-full bg-[#F5F5F5]",
+          }
+
+          div {
+            class: "p-6",
+
             if *is_current_answer_correct.read() {
-              "Vrai !"
-            } else {
-              "Et non..."
+              p {
+                class: "text-[#37A5FF] text-xl",
+                "Vrai !"
+              }
+            }
+            else {
+              p {
+                class: "text-[#616161] text-xl",
+                "Et non..."
+              }
+            }
+  
+            p {
+              class: "font-[Arial] mb-8 mt-4",
+              "{last_explanation}"
             }
           }
 
+
           button {
+            class: "py-4 bg-[#37A5FF] hover:bg-[#4DAFFF] text-white w-full",
             onclick: move |_| {
               show_modal.set(false);
             },
@@ -137,10 +165,11 @@ pub fn Qcm() -> Element {
 
         for (index, answer) in current_question.read().answers.iter().enumerate() {
           button {
-            class: "px-3 py-1.5 opacity-80 hover:opacity-100 hover:bg-[#70BFFF] hover:text-white",
+            class: "px-3 py-1.5 opacity-80 hover:opacity-100 hover:bg-[#37A5FF] hover:text-white text-left",
             r#type: "button",
             onclick: move |_| {
               let is_correct = index == current_question.read().correct_answer;
+              let current_explanation = current_question.read().correct_details.clone();
               is_current_answer_correct.set(is_correct);
               
               if is_correct {
@@ -150,12 +179,13 @@ pub fn Qcm() -> Element {
               let new_index = current_question_index + 1;
 
               current_question_index += 1;
-              let new_question = questions.read();
-              let new_question = new_question.get(new_index);
+              let new_question_ = questions.read();
+              let new_question = new_question_.get(new_index);
 
               if let Some(new_question) = new_question {
                 current_question.set(new_question.clone());
                 show_modal.set(true);
+                last_explanation.set(current_explanation);
               }
               else {
                 // TODO

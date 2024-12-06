@@ -6,6 +6,7 @@ use dioxus_logger::tracing::{info, Level};
 mod pages;
 
 use pages::cookies::Cookies;
+use pages::qcm::Qcm;
 
 const _TAILWIND_URL: &str = manganis::mg!(file("public/tailwind.css"));
 
@@ -15,6 +16,8 @@ enum Route {
     Home {},
     #[route("/edit_cookie_preferences")]
     Cookies {},
+    #[route("/qcm")]
+    Qcm {},
     #[route("/blog/:id")]
     Blog { id: i32 },
 }
@@ -38,6 +41,10 @@ fn App() -> Element {
             href: "https://fonts.googleapis.com/css?family=Press Start 2P"
         }
 
+        div {
+          class: "h-[16px] bg-[#70BFFF] w-full"
+        }
+
         Router::<Route> {}
     }
 }
@@ -53,10 +60,6 @@ fn Blog(id: i32) -> Element {
 #[component]
 fn Home() -> Element {
     rsx! {
-        div {
-          class: "h-[16px] bg-[#70BFFF] w-full"
-        }
-
         header {
           class: "justify-end px-6 hidden sm:flex h-[92px]",
 
@@ -70,7 +73,7 @@ fn Home() -> Element {
             }
             Link {
               class: "px-4 py-2 border-2 border-[#70BFFF] text-[#70BFFF] hover:bg-[#70BFFF] hover:text-white",
-              to: Route::Cookies {},
+              to: Route::Qcm {},
               "Faire le défi"
             }
           }
@@ -89,7 +92,7 @@ fn Home() -> Element {
   
             Link {
               class: "bg-[#70BFFF] px-3 py-1.5 text-white w-fit",
-              to: Route::Cookies {},
+              to: Route::Qcm {},
               "Commencer le défi !"
             }
           }

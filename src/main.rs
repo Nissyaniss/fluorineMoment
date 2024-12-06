@@ -1,6 +1,7 @@
 #![allow(non_snake_case)]
 
 use dioxus::prelude::*;
+use dioxus_elements::u;
 use dioxus_logger::tracing::{info, Level};
 
 mod pages;
@@ -54,7 +55,37 @@ fn Blog(id: i32) -> Element {
 
 #[component]
 fn Home() -> Element {
+    let mut show_cookie_banner = use_signal(|| true);
+
     rsx! {
+        if *show_cookie_banner.read() {
+            div {
+                class: "z-50 fixed bottom-0 inset-x-0 bg-white p-4 border-t border-gray-200 border-t",
+                div {
+                    class: "flex flex-col md:flex-row gap-2 items-center justify-between",
+                    p {
+                        class: "text-sm",
+                        "Ce site utilise des cookies pour améliorer votre expérience utilisateur."
+                    }
+                    div {
+                      class: "shrink-0 flex gap-4",
+                      button {
+                          class: "shrink-0 text-sm hover:bg-black/10 px-2",
+                          onclick: move |_| {
+                              show_cookie_banner.set(false);
+                          },
+                          "Tout accepter"
+                      }
+                      Link {
+                          class: "shrink-0 text-sm bg-[#70BFFF] px-3 py-1.5 text-white w-fit",
+                          to: Route::Cookies {},
+                          "Gérer les préférences"
+                      }
+                    }
+                }
+            }
+        }
+
         header {
           class: "justify-end px-6 hidden sm:flex h-[92px]",
 

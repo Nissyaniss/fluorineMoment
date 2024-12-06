@@ -24,7 +24,7 @@ title = "fluorine-moment"
 reload_html = true
 
 # which files or dirs will be watcher monitoring
-watch_path = ["src", "assets"]
+watch_path = ["src", "assets", "public"]
 
 # include `assets` in web platform
 [web.resource]

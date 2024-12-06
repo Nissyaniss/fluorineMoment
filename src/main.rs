@@ -31,11 +31,6 @@ fn main() {
 
 fn App() -> Element {
     rsx! {
-        // Link {
-        //     rel: "stylesheet",
-        //     href: mg!(file!("/public/tailwind.css"))
-        // }
-        //
         link {
             rel: "stylesheet",
             href: "https://fonts.googleapis.com/css?family=Press Start 2P"

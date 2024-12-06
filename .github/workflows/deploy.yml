@@ -1,0 +1,42 @@
+name: "Dioxus Deploy"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: run tailwindcss
+        run: npx tailwindcss -i ./input.css -o ./assets/tailwind.css
+      
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+          target: wasm32-unknown-unknown
+
+      - uses: swatinem/rust-cache@v2
+      
+      - name: install dioxus-cli
+        run: cargo install dioxus-cli
+      
+      - name: Build
+        run: dx build --release
+      
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25.2.0
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }} 
+          vercel-args: '--prod'
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }} 
+          working-directory: ./dist

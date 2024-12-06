@@ -1,5 +1,7 @@
 use dioxus::prelude::*;
 
+use crate::Route;
+
 #[derive(Clone)]
 struct Question {
   context: String,
@@ -89,6 +91,7 @@ pub fn Qcm() -> Element {
   let mut current_question_index = use_signal(|| 0);
   let mut current_question = use_signal(|| questions.read()[0].clone());
   let mut correct_answers = use_signal(|| 0);
+  let mut is_done = use_signal(|| false);
 
   let mut is_current_answer_correct = use_signal(|| false);
   let mut show_modal = use_signal(|| false);
@@ -142,57 +145,78 @@ pub fn Qcm() -> Element {
     main {
       class: "flex flex-col gap-2 container mx-auto px-6 py-12",
 
-      p {
-        class: "text-4xl mb-6",
-        "{current_question_index+1}/6"
-      }
-
-      div {
-        class: "flex flex-col gap-2 mb-8",
-
+      if !*is_done.read() {
         p {
-          class: "font-[Arial]",
-          "{current_question.read().context}"
+          class: "text-4xl mb-6",
+          "{current_question_index+1}/6"
         }
-        p {
-          class: "font-[Arial] font-bold",
-          "{current_question.read().question}"
+  
+        div {
+          class: "flex flex-col gap-2 mb-8",
+  
+          p {
+            class: "font-[Arial]",
+            "{current_question.read().context}"
+          }
+          p {
+            class: "font-[Arial] font-bold",
+            "{current_question.read().question}"
+          }
         }
-      }
-
-      div {
-        class: "flex flex-col gap-2 items-start",
-
-        for (index, answer) in current_question.read().answers.iter().enumerate() {
-          button {
-            class: "px-3 py-1.5 opacity-80 hover:opacity-100 hover:bg-[#37A5FF] hover:text-white text-left",
-            r#type: "button",
-            onclick: move |_| {
-              let is_correct = index == current_question.read().correct_answer;
-              let current_explanation = current_question.read().correct_details.clone();
-              is_current_answer_correct.set(is_correct);
+  
+        div {
+          class: "flex flex-col gap-2 items-start",
+  
+          for (index, answer) in current_question.read().answers.iter().enumerate() {
+            button {
+              class: "px-3 py-1.5 opacity-80 hover:opacity-100 hover:bg-[#37A5FF] hover:text-white text-left",
+              r#type: "button",
+              onclick: move |_| {
+                let is_correct = index == current_question.read().correct_answer;
+                let current_explanation = current_question.read().correct_details.clone();
+                is_current_answer_correct.set(is_correct);
+                
+                if is_correct {
+                  correct_answers += 1;
+                }
+  
+                let new_index = current_question_index + 1;
+  
+                current_question_index += 1;
+                let new_question_ = questions.read();
+                let new_question = new_question_.get(new_index);
+  
+                if let Some(new_question) = new_question {
+                  current_question.set(new_question.clone());
+                  show_modal.set(true);
+                  last_explanation.set(current_explanation);
+                }
+                else {
+                  is_done.set(true);
+                }
+              },
               
-              if is_correct {
-                correct_answers += 1;
-              }
+              "{answer}"
+            }
+          }
+        }
+      }
+      else {
+        div {
+          class: "flex flex-col items-center gap-4",
+  
+          p {
+            class: "text-center",
+            "Vous avez terminé le défi !"
+          }
+          p {
+            class: "text-center",
+            "Vous avez obtenu {correct_answers}/6 réponses correctes."
+          }
 
-              let new_index = current_question_index + 1;
-
-              current_question_index += 1;
-              let new_question_ = questions.read();
-              let new_question = new_question_.get(new_index);
-
-              if let Some(new_question) = new_question {
-                current_question.set(new_question.clone());
-                show_modal.set(true);
-                last_explanation.set(current_explanation);
-              }
-              else {
-                // TODO
-              }
-            },
-            
-            "{answer}"
+          Link {
+            to: Route::Home {},
+            "Revenir à la page d'accueil"
           }
         }
       }

@@ -1,7 +1,6 @@
 #![allow(non_snake_case)]
 
 use dioxus::prelude::*;
-use dioxus_elements::u;
 use dioxus_logger::tracing::{info, Level};
 
 mod pages;
@@ -9,7 +8,7 @@ mod pages;
 use pages::cookies::Cookies;
 use pages::qcm::Qcm;
 
-// const _TAILWIND_URL: &str = manganis::mg!(file("public/tailwind.css"));
+const _TAILWIND_URL: &str = manganis::mg!(file("assets/tailwind.css"));
 
 #[derive(Clone, Routable, Debug, PartialEq)]
 pub enum Route {

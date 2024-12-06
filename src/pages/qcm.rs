@@ -74,18 +74,6 @@ pub fn Qcm() -> Element {
       correct_answer: 2,
       correct_details: "Les graisses (tissu adipeux) stockent des déchets et des substances dans le corps humain, tout comme une partie du phytoplancton en décomposition est emprisonnée au fond de l'océan.".to_string(),
     },
-    Question {
-      context: "L'acidification des océans modifie leur équilibre chimique et affecte les écosystèmes marins.".to_string(),
-      question: "Quel organe humain pourrait être affecté de manière similaire par un déséquilibre chimique dans le corps ?".to_string(),
-      answers: vec![
-        "Coeur".to_string(),
-        "Le système circulatoire".to_string(),
-        "Le sang".to_string(),
-        "Cerveau".to_string(),
-      ],
-      correct_answer: 2,
-      correct_details: "Le sang est un équilibre chimique délicat dans le corps humain, tout comme l'acidification des océans modifie leur équilibre chimique et affecte les écosystèmes marins.".to_string(),
-    },
   ]);
 
   let mut current_question_index = use_signal(|| 0);
@@ -106,6 +94,13 @@ pub fn Qcm() -> Element {
 
           div {
             class: "h-[250px] w-full bg-[#F5F5F5]",
+
+            video {
+              class: "w-full h-full object-cover",
+              autoplay: false,
+              controls: true,
+              src: "/q{current_question_index}.mp4"
+            }
           }
 
           div {
@@ -148,7 +143,7 @@ pub fn Qcm() -> Element {
       if !*is_done.read() {
         p {
           class: "text-4xl mb-6",
-          "{current_question_index+1}/6"
+          "{current_question_index+1}/{questions.len()}"
         }
   
         div {
@@ -185,11 +180,11 @@ pub fn Qcm() -> Element {
                 current_question_index += 1;
                 let new_question_ = questions.read();
                 let new_question = new_question_.get(new_index);
+                last_explanation.set(current_explanation);
+                show_modal.set(true);
   
                 if let Some(new_question) = new_question {
                   current_question.set(new_question.clone());
-                  show_modal.set(true);
-                  last_explanation.set(current_explanation);
                 }
                 else {
                   is_done.set(true);
@@ -211,10 +206,11 @@ pub fn Qcm() -> Element {
           }
           p {
             class: "text-center",
-            "Vous avez obtenu {correct_answers}/6 réponses correctes."
+            "Vous avez obtenu {correct_answers}/{questions.len()} réponses correctes."
           }
 
           Link {
+            class: "bg-[#70BFFF] px-3 py-1.5 text-white w-fit",
             to: Route::Home {},
             "Revenir à la page d'accueil"
           }

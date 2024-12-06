@@ -12,6 +12,8 @@ use dioxus_logger::tracing::info;
 use getrandom::getrandom;
 use web_sys::{wasm_bindgen::prelude::*, Window};
 
+use crate::Route;
+
 const COOKIE_SIZE: f64 = 300.;
 const KEYS: &[&str] = &[
     "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
@@ -74,10 +76,10 @@ pub fn Cookies() -> Element {
                 class: "underline",
                 "ouvrir"
             },
-            " le "
+            " les "
             span {
                 class: "italic",
-                "menu"
+                "préférences de cookies"
             }
         }
         p {
@@ -149,7 +151,7 @@ pub fn Cookies() -> Element {
         if is_menu_open() {
             div {
                 class: "z-999 bg-white border border-solid border-black absolute",
-                style: "top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(75%, 700px)",
+                style: "top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(75%, 1000px)",
 
                 div {
                     class: "w-full border-b border-solid border-black text-center flex flex-row",
@@ -162,7 +164,7 @@ pub fn Cookies() -> Element {
                     }
                     p {
                         class: "flex-1",
-                        "Menu"
+                        "Préférences des cookies"
                     }
                 }
 
@@ -202,9 +204,19 @@ pub fn Cookies() -> Element {
                                         "acheter"
                                     }
                                 }
-                                ":{item.2}"
+                                ":{item.2} points"
                             }
                         }
+                    }
+                }
+
+                div {
+                    class: "text-center mb-2 mt-2",
+
+                    Link {
+                      class: "bg-[#70BFFF] px-3 py-1.5 text-white w-fit",
+                      to: Route::Home {},
+                      "Valider les préférences"
                     }
                 }
             }

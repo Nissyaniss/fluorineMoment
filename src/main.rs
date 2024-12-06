@@ -160,13 +160,14 @@ fn Home() -> Element {
         }
 
         section {
-          class: "bg-[#70BFFF] py-16 px-6",
+          class: "bg-[#70BFFF] pt-16 pb-40 px-6",
 
           div {
             class: "flex flex-col md:flex-row gap-8 px-6 container mx-auto",
 
-            div {
-              class: "shrink-0 w-[400px] h-[300px] bg-white"
+            img {
+              src: "/sea.png",
+              class: "shrink-0 w-[400px] h-[300px] object-cover"
             }
 
             div {
